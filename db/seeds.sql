@@ -12,7 +12,3 @@ INSERT INTO reviews (movie_id, review) VALUES
 (3, "Dorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
 (4, "Zorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
 (5, "Worem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.");
-
-SELECT * FROM movies;
-
-SELECT * FROM reviews;

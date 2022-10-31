@@ -17,7 +17,3 @@ CREATE TABLE reviews (
     REFERENCES movies(id)
     ON DELETE CASCADE
 );
-
-DESCRIBE movies;
-
-DESCRIBE reviews;
