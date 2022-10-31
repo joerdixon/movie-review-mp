@@ -1,7 +1,6 @@
 // Required Package.
 const express = require("express");
 const mysql = require("mysql2");
-const { devNull } = require("os");
 
 // Start express server.
 const app = express();
@@ -9,20 +8,20 @@ const app = express();
 // Declare port.
 const PORT = 3000;
 
-// Create database connection.
+// Middleware for data interchange.
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 const db = mysql.createConnection(
+// Create database connection.
     {
         host: 'localhost',
         user: 'root',
         password: 'password',
         database: 'movies_db'
-    },
+    },    
     console.log("connected to database.")
-)
-
-// Middleware for data interchange.
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+)    
 
 // Route for all movies.
 app.get("/api/movies", (req, res) => {
@@ -31,9 +30,9 @@ app.get("/api/movies", (req, res) => {
             console.log(err);
         } else {
             res.json(results);
-        }
-    })
-})
+        }    
+    })    
+})    
 
 // Route for all reviews.
 app.get("/api/reviews", (req, res) => {
@@ -42,9 +41,9 @@ app.get("/api/reviews", (req, res) => {
             console.log(err);
         } else {
             res.json(results);
-        }
-    })
-})
+        }    
+    })    
+})    
 
 // Allows users to add movies.
 app.post("/api/add-movie", (req, res) => {
@@ -54,9 +53,9 @@ app.post("/api/add-movie", (req, res) => {
         } else {
             console.log("Added!")
             res.json(results)
-        }
-    })
-})
+        }    
+    })    
+})    
 
 // Deletes movie specified by ID.
 app.delete("/api/movies/:id", (req, res) => {
@@ -66,9 +65,32 @@ app.delete("/api/movies/:id", (req, res) => {
         } else {
             console.log("Movie Deleted!");
             res.json(results)
-        }
-    })
-})
+        }    
+    })    
+})    
+
+app.put("/api/update-review/:id", (req, res) => {
+    db.execute(`UPDATE reviews SET review = '${req.body.review}' WHERE id = ${req.params.id}`, (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(`Review ${req.params.id} Updated!`);
+            res.json(results)
+        }    
+    })    
+})    
+
+app.post("/api/add-review/:movie", (req, res) => {
+    db.execute(`INSERT INTO reviews (movie_id, review) VALUES ('${req.params.movie}', '${req.body.review}')`, (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Review Added!");
+            res.json(results);
+        }    
+    })    
+})    
+
 
 // Turn on port.
 app.listen(PORT, () => 
